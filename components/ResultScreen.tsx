@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Download, Share2, ArrowLeft, RefreshCw } from 'lucide-react';
+import { Download, ArrowLeft } from 'lucide-react';
 import { ASSETS, TEXTS } from '../constants';
 
 interface ResultScreenProps {
@@ -163,16 +163,6 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
                     {/* Action Buttons */}
                     <div className="w-full flex items-center justify-center gap-6 shrink-0 pb-6">
                         <button 
-                          onClick={onReset}
-                          className="flex flex-col items-center justify-center group"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-stone-400 group-hover:text-olive-green group-hover:shadow-md transition-all">
-                                 <RefreshCw className="w-5 h-5" />
-                            </div>
-                            <span className="mt-2 text-xs font-medium text-stone-400 uppercase tracking-wider">重置</span>
-                        </button>
-
-                        <button 
                           onClick={handleSave}
                           disabled={isSaving}
                           className="group relative flex flex-col items-center justify-center outline-none active:scale-95 transition-transform"
@@ -190,15 +180,6 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
                                     留存标本
                                 </span>
                             </div>
-                        </button>
-
-                         <button 
-                          className="flex flex-col items-center justify-center group cursor-not-allowed opacity-50"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-stone-400">
-                                 <Share2 className="w-5 h-5" />
-                            </div>
-                            <span className="mt-2 text-xs font-medium text-stone-400 uppercase tracking-wider">分享</span>
                         </button>
                     </div>
 
