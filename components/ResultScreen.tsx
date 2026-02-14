@@ -16,21 +16,23 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
     setIsSaving(true);
     try {
       const { toPng } = await import('html-to-image');
+      
+      // Wait a bit for any layout shifts
       await new Promise(resolve => setTimeout(resolve, 100));
       
       const dataUrl = await toPng(cardRef.current, { 
-        cacheBust: true, 
-        pixelRatio: 2,
-        backgroundColor: '#fdfbf7',
-        style: {
-          transform: 'scale(1)',
-        }
+        cacheBust: false, // Disable cacheBust to prevent breaking Google signed URLs
+        pixelRatio: 2, // Retain high quality
+        backgroundColor: '#fdfbf7', // Ensure background is filled
+        skipAutoScale: true,
       });
       
       const link = document.createElement('a');
       link.download = `oasis-specimen-${TEXTS.SPECIMEN_NO}.png`;
       link.href = dataUrl;
+      document.body.appendChild(link); // Required for Firefox and some mobile browsers
       link.click();
+      document.body.removeChild(link);
     } catch (err) {
       console.error('Failed to save image', err);
       alert('保存图片失败，请重试');
