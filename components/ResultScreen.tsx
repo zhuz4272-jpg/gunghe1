@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Download, ArrowLeft, Sparkles } from 'lucide-react';
+import { Download, ArrowLeft } from 'lucide-react';
 import { ASSETS, TEXTS, SpecimenPreset } from '../constants';
 
 interface ResultScreenProps {
@@ -23,7 +23,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
       
       const dataUrl = await toPng(cardRef.current, { 
         cacheBust: false,
-        pixelRatio: 2,
+        pixelRatio: 3, // Higher quality for saved image
         backgroundColor: '#fdfbf7',
         skipAutoScale: true,
       });
@@ -70,11 +70,11 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
         </header>
 
         {/* Main Flex Container */}
-        <div className="flex-1 min-h-0 w-full flex flex-col px-4 pb-2 relative z-20 items-center">
+        <div className="flex-1 min-h-0 w-full flex flex-col px-4 pb-4 relative z-20 items-center">
             
             {/* Card Area - Flex with min-height safety */}
-            <div className="flex-1 min-h-0 w-full flex items-center justify-center mb-2">
-                <div ref={cardRef} className="w-full max-w-sm max-h-full bg-earth-light rounded-[4px] shadow-2xl relative overflow-hidden flex flex-col items-center">
+            <div className="flex-1 min-h-0 w-full flex items-center justify-center mb-4">
+                <div ref={cardRef} className="w-full max-w-sm h-auto max-h-full bg-earth-light rounded-[4px] shadow-2xl relative overflow-hidden flex flex-col items-center">
                     {/* Texture Overlay */}
                     <div className="texture-overlay"></div>
                     
@@ -83,48 +83,48 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                     <div className="absolute inset-3 border border-olive-green/5 pointer-events-none z-20"></div>
 
                     {/* Card Content - Flex Column */}
-                    <div className="relative z-10 w-full p-4 flex flex-col h-full items-center justify-between">
+                    <div className="relative z-10 w-full p-4 sm:p-5 flex flex-col h-full items-center">
                         
-                        {/* Top Section: Header & Image */}
-                        <div className="w-full flex flex-col items-center flex-1 min-h-0 overflow-hidden">
-                            {/* Card Header */}
-                            <div className="w-full flex justify-between items-start mb-1 shrink-0">
-                                <div className="flex flex-col">
-                                    <span className="font-serif italic text-olive-green text-[10px] tracking-widest">
-                                        {TEXTS.RESULT_TITLE}
-                                    </span>
-                                    <div className="w-6 h-px bg-olive-green/30 mt-0.5"></div>
-                                </div>
-                                <div className="border border-stone-300 rounded-full px-1.5 py-px">
-                                    <span className="text-[8px] font-sans uppercase tracking-widest text-stone-500">NO. {TEXTS.SPECIMEN_NO}</span>
-                                </div>
+                        {/* Header Section - Shrink 0 */}
+                        <div className="w-full flex justify-between items-start mb-2 shrink-0">
+                            <div className="flex flex-col">
+                                <span className="font-serif italic text-olive-green text-[10px] tracking-widest">
+                                    {TEXTS.RESULT_TITLE}
+                                </span>
+                                <div className="w-6 h-px bg-olive-green/30 mt-0.5"></div>
                             </div>
+                            <div className="border border-stone-300 rounded-full px-1.5 py-px">
+                                <span className="text-[8px] font-sans uppercase tracking-widest text-stone-500">NO. {TEXTS.SPECIMEN_NO}</span>
+                            </div>
+                        </div>
 
-                            {/* Image Specimen - Increased padding (p-8) to significantly reduce visual size */}
-                            <div className="flex-1 min-h-[80px] w-full relative flex items-center justify-center my-1 rounded-lg overflow-hidden p-8">
+                        {/* Image Specimen - Flexible Space (Flex-1) */}
+                        <div className="flex-1 w-full flex items-center justify-center min-h-0 py-2">
+                            <div className="relative aspect-square h-full max-h-[180px] sm:max-h-[220px] w-auto max-w-full rounded-[2rem] overflow-hidden shadow-sm bg-[#f4f1ea] ring-1 ring-black/5">
                                 {data.isIllustration ? (
-                                   <>
-                                     <div className="absolute w-2/3 h-2/3 bg-olive-green/10 rounded-full blur-xl animate-pulse"></div>
+                                   <div className="w-full h-full flex items-center justify-center relative">
                                      <img 
                                         src={data.image} 
                                         crossOrigin="anonymous"
                                         alt="Botanical illustration" 
-                                        className="relative z-10 max-h-[80%] max-w-[80%] object-contain mix-blend-multiply opacity-95 filter contrast-110" 
+                                        className="relative z-10 w-[85%] h-[85%] object-contain" 
                                      />
-                                   </>
+                                   </div>
                                 ) : (
                                      <img 
                                         src={data.image} 
                                         crossOrigin="anonymous"
                                         alt="Botanical photo" 
-                                        className="max-h-[80%] max-w-[80%] object-contain rounded-sm shadow-sm filter sepia-[0.1] contrast-[0.95]" 
+                                        className="w-full h-full object-cover" 
                                      />
                                 )}
+                                {/* Inner Shadow for depth */}
+                                <div className="absolute inset-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] pointer-events-none rounded-[2rem]"></div>
                             </div>
                         </div>
 
-                        {/* Bottom Section: Text Content - Compacted for mobile */}
-                        <div className="text-center w-full shrink-0 mt-1 flex flex-col gap-1.5">
+                        {/* Bottom Section: Text Content - Shrink 0 to preserve readability */}
+                        <div className="text-center w-full shrink-0 flex flex-col gap-1.5 pb-1">
                             <h1 className="font-serif text-xl sm:text-2xl font-black text-earth-dark tracking-wide leading-none">
                                 {data.name}
                             </h1>
@@ -153,22 +153,12 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                             </div>
 
                             {/* Quote */}
-                            <div className="px-3 py-1.5 bg-paper-texture border-t border-b border-stone-100 relative">
+                            <div className="px-3 py-2 bg-paper-texture border-t border-b border-stone-100 relative my-1">
                                 <span className="absolute top-0 left-1 text-lg text-stone-300 font-serif leading-none">“</span>
                                 <p className="text-earth-dark/80 leading-relaxed font-serif text-[10px] sm:text-xs italic relative z-10 line-clamp-3">
                                     {data.quote}
                                 </p>
                                 <span className="absolute bottom-0 right-1 text-lg text-stone-300 font-serif leading-none transform rotate-180">“</span>
-                            </div>
-
-                            {/* Lucky Nutrient CTA */}
-                            <div className="w-full flex justify-center items-center">
-                                <div className="flex items-center space-x-1 bg-olive-green/5 px-2 py-1 rounded-full border border-olive-green/10">
-                                    <Sparkles className="w-2.5 h-2.5 text-olive-green" />
-                                    <span className="text-[9px] sm:text-[10px] text-olive-green/90 font-medium tracking-wide">
-                                       幸运养分：{data.cta}
-                                    </span>
-                                </div>
                             </div>
 
                             {/* Card Footer Details */}
@@ -185,7 +175,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
             </div>
 
             {/* Action Buttons - Fixed at bottom */}
-            <div className="shrink-0 w-full flex items-center justify-center pb-safe">
+            <div className="shrink-0 w-full flex items-center justify-center pb-2 sm:pb-4">
                 <button 
                   onClick={handleSave}
                   disabled={isSaving}
