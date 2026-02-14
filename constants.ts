@@ -1,4 +1,5 @@
 
+
 export const ASSETS = {
   // Provided assets
   SEED_IMAGE: "https://lh3.googleusercontent.com/aida-public/AB6AXuBF34Ii0plS7mdXWwWl1j-6Hu6oO6VoP8ARIDrctcTCFpMwHWs0Btgpd9w-V3RA8F0uh2BXPy1epLCRc7MnYZ68_a7eYRBr2a0rlHsjbFRuHq5AvhI9eWORCXHZUC2kNzcjCJ2dMmbIDmfTRB5Z7bz0eessgS-Nf-dqUbqc4Y6MEl1Y73eb8rBQaNAqrTbwnJSoOmWFYRniZfHqw2QDLTMaGubBwvLpLwl6e9W5c5mIotl4JXm6_nEzhH0IZnPIQctUDeiWVkEXNLw9",
@@ -8,7 +9,12 @@ export const ASSETS = {
   ALOE_IMAGE: "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?auto=format&fit=crop&w=600&q=80",
   SUNFLOWER_IMAGE: "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=600&q=80",
   MOSS_IMAGE: "https://images.unsplash.com/photo-1453904300235-0f2f60b15b5d?auto=format&fit=crop&w=600&q=80",
-  FLYTRAP_IMAGE: "https://images.unsplash.com/photo-1550953686-e8d91c2b534d?auto=format&fit=crop&w=600&q=80"
+  FLYTRAP_IMAGE: "https://images.unsplash.com/photo-1550953686-e8d91c2b534d?auto=format&fit=crop&w=600&q=80",
+
+  // Audio Assets
+  SOUND_CLICK: "https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3",
+  SOUND_WATER: "https://assets.mixkit.co/sfx/preview/mixkit-liquid-bubble-3000.mp3", 
+  SOUND_SHUTTER: "https://assets.mixkit.co/sfx/preview/mixkit-camera-shutter-click-1133.mp3"
 };
 
 export const TEXTS = {

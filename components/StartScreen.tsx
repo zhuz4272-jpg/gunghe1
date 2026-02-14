@@ -8,6 +8,18 @@ interface StartScreenProps {
 }
 
 export const StartScreen: React.FC<StartScreenProps> = ({ onGenerate, isGenerating }) => {
+  
+  const handleGenerateClick = () => {
+    if (isGenerating) return;
+    
+    // Play sound
+    const audio = new Audio(ASSETS.SOUND_WATER);
+    audio.volume = 0.5;
+    audio.play().catch(e => console.error("Audio play failed", e));
+
+    onGenerate();
+  };
+
   return (
     <div className="bg-gradient-to-br from-[#ffe8cc] via-[#ebf7ee] to-[#d6f5d6] h-[100dvh] w-full relative overflow-hidden flex flex-col items-center animate-gradient-xy text-slate-800">
       {/* Ambient Background Blobs */}
@@ -77,7 +89,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGenerate, isGenerati
         {/* Footer Action - Fixed */}
         <footer className="w-full flex flex-col items-center space-y-4 z-20 shrink-0 pb-4">
             <button 
-              onClick={onGenerate}
+              onClick={handleGenerateClick}
               disabled={isGenerating}
               className="group relative w-full max-w-[340px] h-16 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_8px_32px_0_rgba(19,236,91,0.3)] transition-all duration-500 overflow-hidden active:scale-95 animate-breathe disabled:animate-none disabled:cursor-not-allowed"
             >

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Download, ArrowLeft } from 'lucide-react';
 import { ASSETS, TEXTS, SpecimenPreset } from '../constants';
 
@@ -10,11 +10,33 @@ interface ResultScreenProps {
 export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Fallback timer to force show content if image hangs
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        if (!isLoaded) setIsLoaded(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [isLoaded]);
+
+  const handleBack = () => {
+    // Play Click Sound
+    const audio = new Audio(ASSETS.SOUND_CLICK);
+    audio.volume = 0.4;
+    audio.play().catch(e => console.error("Audio play failed", e));
+    
+    onReset();
+  };
 
   const handleSave = async () => {
     if (cardRef.current === null) return;
     
+    // Play Camera Shutter Sound
+    const audio = new Audio(ASSETS.SOUND_SHUTTER);
+    audio.volume = 0.5;
+    audio.play().catch(e => console.error("Audio play failed", e));
+
     setIsSaving(true);
     try {
       const { toPng } = await import('html-to-image');
@@ -44,170 +66,180 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
   };
 
   return (
-    <div className="bg-[#ecebe4] font-sans text-earth-dark h-[100dvh] w-full flex flex-col relative overflow-hidden animate-in fade-in duration-1000">
-        {/* Background Ambience */}
-        <div className="absolute inset-0 z-0">
-            <div className="leaf-shadow absolute w-full h-full top-0 left-0 pointer-events-none"></div>
-            <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[40%] bg-[#d8dcd3] rounded-full blur-3xl opacity-60"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[50%] bg-[#e3dcd3] rounded-full blur-3xl opacity-60"></div>
+    <div className="bg-[#ecebe4] font-sans text-earth-dark h-[100dvh] w-full flex flex-col relative overflow-hidden">
+        
+        {/* Full Screen Loading Overlay */}
+        <div 
+            className={`absolute inset-0 z-[100] bg-[#ecebe4] flex flex-col items-center justify-center transition-opacity duration-700 ease-out ${isLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+        >
+            <div className="w-10 h-10 border-2 border-stone-200 border-t-olive-green rounded-full animate-spin mb-4"></div>
+            <p className="font-serif text-[10px] tracking-[0.2em] text-stone-400 uppercase animate-pulse">
+                Developing...
+            </p>
         </div>
 
-        {/* Floating Light Effects */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-olive-green/5 blur-[80px] rounded-full pointer-events-none z-30 mix-blend-multiply"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-terracotta/5 blur-[60px] rounded-full pointer-events-none z-30 mix-blend-multiply"></div>
-
-        {/* Header Bar */}
-        <header className="w-full p-3 flex justify-between items-center z-50 shrink-0 relative">
-           <button 
-             onClick={onReset}
-             className="w-9 h-9 flex items-center justify-center rounded-full glass-panel hover:bg-white/60 transition-colors shadow-sm text-stone-600"
-           >
-             <ArrowLeft className="w-5 h-5" />
-           </button>
-           <div className="text-stone-500 font-serif text-[10px] tracking-widest uppercase opacity-60">
-             {new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })}
-           </div>
-           <div className="w-9"></div>
-        </header>
-
-        {/* Main Flex Container */}
-        <div className="flex-1 min-h-0 w-full flex flex-col px-4 pb-4 relative z-20 items-center">
+        {/* Content Wrapper - Revealed when loaded */}
+        <div className={`w-full h-full flex flex-col relative z-20 transition-all duration-1000 transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             
-            {/* Card Area - Flex with min-height safety */}
-            <div className="flex-1 min-h-0 w-full flex items-center justify-center mb-4">
-                <div ref={cardRef} className="w-full max-w-sm h-auto max-h-full bg-earth-light rounded-[4px] shadow-2xl relative overflow-hidden flex flex-col items-center">
-                    {/* Texture Overlay */}
-                    <div className="texture-overlay"></div>
-                    
-                    {/* Inner Frame Borders */}
-                    <div className="absolute inset-2 border border-olive-green/10 pointer-events-none z-20"></div>
-                    <div className="absolute inset-3 border border-olive-green/5 pointer-events-none z-20"></div>
+            {/* Background Ambience */}
+            <div className="absolute inset-0 z-0">
+                <div className="leaf-shadow absolute w-full h-full top-0 left-0 pointer-events-none"></div>
+                <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[40%] bg-[#d8dcd3] rounded-full blur-3xl opacity-60"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[50%] bg-[#e3dcd3] rounded-full blur-3xl opacity-60"></div>
+            </div>
 
-                    {/* Card Content - Flex Column */}
-                    <div className="relative z-10 w-full p-4 sm:p-5 flex flex-col h-full items-center">
+            {/* Floating Light Effects */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-olive-green/5 blur-[80px] rounded-full pointer-events-none z-30 mix-blend-multiply"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-terracotta/5 blur-[60px] rounded-full pointer-events-none z-30 mix-blend-multiply"></div>
+
+            {/* Header Bar */}
+            <header className="w-full p-3 flex justify-between items-center z-50 shrink-0 relative">
+            <button 
+                onClick={handleBack}
+                className="w-9 h-9 flex items-center justify-center rounded-full glass-panel hover:bg-white/60 transition-colors shadow-sm text-stone-600"
+            >
+                <ArrowLeft className="w-5 h-5" />
+            </button>
+            <div className="text-stone-500 font-serif text-[10px] tracking-widest uppercase opacity-60">
+                {new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })}
+            </div>
+            <div className="w-9"></div>
+            </header>
+
+            {/* Main Flex Container */}
+            <div className="flex-1 min-h-0 w-full flex flex-col px-4 pb-4 relative z-20 items-center">
+                
+                {/* Card Area - Flex with min-height safety */}
+                <div className="flex-1 min-h-0 w-full flex items-center justify-center mb-4">
+                    <div ref={cardRef} className="w-full max-w-sm h-auto max-h-full bg-earth-light rounded-[4px] shadow-2xl relative overflow-hidden flex flex-col items-center">
+                        {/* Texture Overlay */}
+                        <div className="texture-overlay"></div>
                         
-                        {/* Header Section - Shrink 0 */}
-                        <div className="w-full flex justify-between items-start mb-2 shrink-0">
-                            <div className="flex flex-col">
-                                <span className="font-serif italic text-olive-green text-[10px] tracking-widest">
-                                    {TEXTS.RESULT_TITLE}
-                                </span>
-                                <div className="w-6 h-px bg-olive-green/30 mt-0.5"></div>
-                            </div>
-                            <div className="border border-stone-300 rounded-full px-1.5 py-px">
-                                <span className="text-[8px] font-sans uppercase tracking-widest text-stone-500">NO. {TEXTS.SPECIMEN_NO}</span>
-                            </div>
-                        </div>
+                        {/* Inner Frame Borders */}
+                        <div className="absolute inset-2 border border-olive-green/10 pointer-events-none z-20"></div>
+                        <div className="absolute inset-3 border border-olive-green/5 pointer-events-none z-20"></div>
 
-                        {/* Image Specimen - Flexible Space (Flex-1) */}
-                        <div className="flex-1 w-full flex items-center justify-center min-h-0 py-2">
-                            <div className="relative aspect-square h-full max-h-[180px] sm:max-h-[220px] w-auto max-w-full rounded-[2rem] overflow-hidden shadow-sm bg-[#f4f1ea] ring-1 ring-black/5 flex items-center justify-center">
-                                
-                                {/* Loading Spinner */}
-                                {!isImageLoaded && (
-                                    <div className="absolute inset-0 z-0 flex items-center justify-center">
-                                        <div className="w-6 h-6 border-2 border-olive-green/30 border-t-olive-green rounded-full animate-spin"></div>
+                        {/* Card Content - Flex Column */}
+                        <div className="relative z-10 w-full p-4 sm:p-5 flex flex-col h-full items-center">
+                            
+                            {/* Header Section - Shrink 0 */}
+                            <div className="w-full flex justify-between items-start mb-2 shrink-0">
+                                <div className="flex flex-col">
+                                    <span className="font-serif italic text-olive-green text-[10px] tracking-widest">
+                                        {TEXTS.RESULT_TITLE}
+                                    </span>
+                                    <div className="w-6 h-px bg-olive-green/30 mt-0.5"></div>
+                                </div>
+                                <div className="border border-stone-300 rounded-full px-1.5 py-px">
+                                    <span className="text-[8px] font-sans uppercase tracking-widest text-stone-500">NO. {TEXTS.SPECIMEN_NO}</span>
+                                </div>
+                            </div>
+
+                            {/* Image Specimen - Flexible Space (Flex-1) */}
+                            <div className="flex-1 w-full flex items-center justify-center min-h-0 py-2">
+                                <div className="relative aspect-square h-full max-h-[180px] sm:max-h-[220px] w-auto max-w-full rounded-[2rem] overflow-hidden shadow-sm bg-[#f4f1ea] ring-1 ring-black/5 flex items-center justify-center">
+                                    
+                                    {data.isIllustration ? (
+                                    <div className="w-full h-full flex items-center justify-center relative">
+                                        <img 
+                                            src={data.image} 
+                                            crossOrigin="anonymous"
+                                            alt="Botanical illustration" 
+                                            className="relative z-10 w-[85%] h-[85%] object-contain" 
+                                            onLoad={() => setIsLoaded(true)}
+                                            onError={() => setIsLoaded(true)}
+                                        />
                                     </div>
-                                )}
-
-                                {data.isIllustration ? (
-                                   <div className={`w-full h-full flex items-center justify-center relative transition-opacity duration-700 ease-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                                     <img 
-                                        src={data.image} 
-                                        crossOrigin="anonymous"
-                                        alt="Botanical illustration" 
-                                        className="relative z-10 w-[85%] h-[85%] object-contain" 
-                                        onLoad={() => setIsImageLoaded(true)}
-                                     />
-                                   </div>
-                                ) : (
-                                     <img 
-                                        src={data.image} 
-                                        crossOrigin="anonymous"
-                                        alt="Botanical photo" 
-                                        className={`w-full h-full object-cover transition-opacity duration-700 ease-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                                        onLoad={() => setIsImageLoaded(true)}
-                                     />
-                                )}
-                                {/* Inner Shadow for depth */}
-                                <div className="absolute inset-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] pointer-events-none rounded-[2rem] z-20"></div>
+                                    ) : (
+                                        <img 
+                                            src={data.image} 
+                                            crossOrigin="anonymous"
+                                            alt="Botanical photo" 
+                                            className="w-full h-full object-cover" 
+                                            onLoad={() => setIsLoaded(true)}
+                                            onError={() => setIsLoaded(true)}
+                                        />
+                                    )}
+                                    {/* Inner Shadow for depth */}
+                                    <div className="absolute inset-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] pointer-events-none rounded-[2rem] z-20"></div>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Bottom Section: Text Content - Shrink 0 to preserve readability */}
-                        <div className="text-center w-full shrink-0 flex flex-col gap-1.5 pb-1">
-                            <h1 className="font-serif text-xl sm:text-2xl font-black text-earth-dark tracking-wide leading-none">
-                                {data.name}
-                            </h1>
+                            {/* Bottom Section: Text Content - Shrink 0 to preserve readability */}
+                            <div className="text-center w-full shrink-0 flex flex-col gap-1.5 pb-1">
+                                <h1 className="font-serif text-xl sm:text-2xl font-black text-earth-dark tracking-wide leading-none">
+                                    {data.name}
+                                </h1>
 
-                            {/* Tag & Stamp */}
-                            <div className="relative py-0.5">
-                                <div className="inline-flex items-center justify-center space-x-2 px-4 relative z-10">
-                                    <div className="flex flex-col items-center">
-                                        <span className={`font-serif font-bold text-sm sm:text-base ${data.tagType.includes('忌') ? 'text-seal-red' : 'text-terracotta'}`}>
-                                            {data.tagType}
+                                {/* Tag & Stamp */}
+                                <div className="relative py-0.5">
+                                    <div className="inline-flex items-center justify-center space-x-2 px-4 relative z-10">
+                                        <div className="flex flex-col items-center">
+                                            <span className={`font-serif font-bold text-sm sm:text-base ${data.tagType.includes('忌') ? 'text-seal-red' : 'text-terracotta'}`}>
+                                                {data.tagType}
+                                            </span>
+                                        </div>
+                                        <div className="h-4 w-px bg-stone-300 transform rotate-12"></div>
+                                        <span className="font-serif text-earth-dark/90 text-xs sm:text-sm tracking-wide border-b border-dashed border-stone-300 pb-0.5">
+                                            {data.tagText}
                                         </span>
                                     </div>
-                                    <div className="h-4 w-px bg-stone-300 transform rotate-12"></div>
-                                    <span className="font-serif text-earth-dark/90 text-xs sm:text-sm tracking-wide border-b border-dashed border-stone-300 pb-0.5">
-                                        {data.tagText}
-                                    </span>
+                                    
+                                    {/* Stamp */}
+                                    <div className="absolute -right-1 -top-1 transform rotate-[-15deg] opacity-80 mix-blend-multiply pointer-events-none border border-seal-red rounded-full w-9 h-9 flex items-center justify-center">
+                                        <div className="absolute inset-0.5 border border-seal-red rounded-full opacity-60"></div>
+                                        <span className="text-[6px] text-seal-red font-bold uppercase tracking-widest text-center leading-tight">
+                                            Oasis<br/>Verified
+                                        </span>
+                                    </div>
                                 </div>
-                                
-                                {/* Stamp */}
-                                <div className="absolute -right-1 -top-1 transform rotate-[-15deg] opacity-80 mix-blend-multiply pointer-events-none border border-seal-red rounded-full w-9 h-9 flex items-center justify-center">
-                                    <div className="absolute inset-0.5 border border-seal-red rounded-full opacity-60"></div>
-                                    <span className="text-[6px] text-seal-red font-bold uppercase tracking-widest text-center leading-tight">
-                                        Oasis<br/>Verified
-                                    </span>
+
+                                {/* Quote */}
+                                <div className="px-3 py-2 bg-paper-texture border-t border-b border-stone-100 relative my-1">
+                                    <span className="absolute top-0 left-1 text-lg text-stone-300 font-serif leading-none">“</span>
+                                    <p className="text-earth-dark/80 leading-relaxed font-serif text-[10px] sm:text-xs italic relative z-10 line-clamp-3">
+                                        {data.quote}
+                                    </p>
+                                    <span className="absolute bottom-0 right-1 text-lg text-stone-300 font-serif leading-none transform rotate-180">“</span>
                                 </div>
-                            </div>
 
-                            {/* Quote */}
-                            <div className="px-3 py-2 bg-paper-texture border-t border-b border-stone-100 relative my-1">
-                                <span className="absolute top-0 left-1 text-lg text-stone-300 font-serif leading-none">“</span>
-                                <p className="text-earth-dark/80 leading-relaxed font-serif text-[10px] sm:text-xs italic relative z-10 line-clamp-3">
-                                    {data.quote}
-                                </p>
-                                <span className="absolute bottom-0 right-1 text-lg text-stone-300 font-serif leading-none transform rotate-180">“</span>
-                            </div>
-
-                            {/* Card Footer Details */}
-                            <div className="pt-1 w-full flex justify-center items-center opacity-50">
-                                <div className="flex items-center space-x-2 text-[6px] uppercase tracking-[0.3em] text-stone-gray font-bold">
-                                    <span>—</span>
-                                    <span>{TEXTS.COLLECTION}</span>
-                                    <span>—</span>
+                                {/* Card Footer Details */}
+                                <div className="pt-1 w-full flex justify-center items-center opacity-50">
+                                    <div className="flex items-center space-x-2 text-[6px] uppercase tracking-[0.3em] text-stone-gray font-bold">
+                                        <span>—</span>
+                                        <span>{TEXTS.COLLECTION}</span>
+                                        <span>—</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Action Buttons - Fixed at bottom */}
-            <div className="shrink-0 w-full flex items-center justify-center pb-2 sm:pb-4">
-                <button 
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="group relative flex flex-col items-center justify-center outline-none active:scale-95 transition-transform"
-                >
-                    <div className="w-11 h-11 bg-gradient-to-br from-terracotta to-[#a83e38] rounded-xl shadow-lg shadow-terracotta/20 border-2 border-[#fff1e6]/20 flex items-center justify-center transform group-hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
-                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-20"></div>
-                        {isSaving ? (
-                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        ) : (
-                            <Download className="text-white w-5 h-5 drop-shadow-md" />
-                        )}
-                    </div>
-                    <div className="mt-1.5 flex flex-col items-center">
-                        <span className="font-serif text-[10px] font-bold text-earth-dark/70 tracking-widest group-hover:text-terracotta transition-colors">
-                            留存标本
-                        </span>
-                    </div>
-                </button>
-            </div>
+                {/* Action Buttons - Fixed at bottom */}
+                <div className="shrink-0 w-full flex items-center justify-center pb-2 sm:pb-4">
+                    <button 
+                    onClick={handleSave}
+                    disabled={isSaving}
+                    className="group relative flex flex-col items-center justify-center outline-none active:scale-95 transition-transform"
+                    >
+                        <div className="w-11 h-11 bg-gradient-to-br from-terracotta to-[#a83e38] rounded-xl shadow-lg shadow-terracotta/20 border-2 border-[#fff1e6]/20 flex items-center justify-center transform group-hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-20"></div>
+                            {isSaving ? (
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            ) : (
+                                <Download className="text-white w-5 h-5 drop-shadow-md" />
+                            )}
+                        </div>
+                        <div className="mt-1.5 flex flex-col items-center">
+                            <span className="font-serif text-[10px] font-bold text-earth-dark/70 tracking-widest group-hover:text-terracotta transition-colors">
+                                留存标本
+                            </span>
+                        </div>
+                    </button>
+                </div>
 
+            </div>
         </div>
     </div>
   );
