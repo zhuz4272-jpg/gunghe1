@@ -121,7 +121,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                         <div className="absolute inset-3 border border-olive-green/5 pointer-events-none z-20"></div>
 
                         {/* Card Content - Compact Layout */}
-                        <div className="relative z-10 w-full px-5 py-4 flex flex-col h-full items-center">
+                        <div className="relative z-10 w-full px-5 py-8 flex flex-col h-full items-center">
                             
                             {/* Header Section - Shrink 0 */}
                             <div className="w-full flex justify-between items-start mb-1 shrink-0">
@@ -131,14 +131,14 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                                     </span>
                                     <div className="w-6 h-px bg-olive-green/30 mt-0.5"></div>
                                 </div>
-                                <div className="border border-stone-300 rounded-full px-1.5 py-px">
-                                    <span className="text-[7px] font-sans uppercase tracking-widest text-stone-500">NO. {TEXTS.SPECIMEN_NO}</span>
+                                <div className="border border-stone-300 rounded-full px-2 py-0.5">
+                                    <span className="text-[10px] font-sans uppercase tracking-widest text-stone-500 font-bold">NO. {TEXTS.SPECIMEN_NO}</span>
                                 </div>
                             </div>
 
                             {/* Image Specimen - Border Removed, Spacing Increased */}
                             <div className="flex-1 w-full flex items-center justify-center min-h-0 py-1 mb-8">
-                                <div className="relative aspect-square h-full max-h-[160px] sm:max-h-[200px] w-auto max-w-full flex items-center justify-center">
+                                <div className="relative aspect-square h-full max-h-[280px] sm:max-h-[350px] w-auto max-w-full flex items-center justify-center">
                                     
                                     {data.isIllustration ? (
                                     <div className="w-full h-full flex items-center justify-center relative">
