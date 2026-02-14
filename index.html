@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -37,6 +38,9 @@
               'float': 'float 6s ease-in-out infinite',
               'gradient-xy': 'gradient-xy 15s ease infinite',
               'shimmer': 'shimmer 1.5s infinite',
+              'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'shine-sweep': 'shine 2s ease-in-out infinite',
+              'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
             },
             keyframes: {
               breathe: {
@@ -53,6 +57,20 @@
               },
               shimmer: {
                 '100%': { transform: 'translateX(100%)' }
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(40px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              shine: {
+                '0%': { left: '-100%', opacity: '0' },
+                '50%': { opacity: '0.5' },
+                '100%': { left: '200%', opacity: '0' }
+              },
+              pop: {
+                '0%': { transform: 'scale(0.95)' },
+                '50%': { transform: 'scale(1.02)' },
+                '100%': { transform: 'scale(1)' }
               }
             },
             backgroundImage: {
@@ -89,6 +107,10 @@
       .leaf-shadow {
         background-image: radial-gradient(circle at 10% 20%, rgba(0,0,0,0.08) 0%, transparent 50%),
                           radial-gradient(circle at 85% 60%, rgba(85, 107, 47, 0.1) 0%, transparent 60%);
+      }
+      .mask-image-shine {
+        mask-image: linear-gradient(45deg, #000 25%, rgba(0,0,0,0.2) 50%, #000 75%);
+        -webkit-mask-image: linear-gradient(45deg, #000 25%, rgba(0,0,0,0.2) 50%, #000 75%);
       }
     </style>
   <script type="importmap">

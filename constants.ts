@@ -1,4 +1,5 @@
 
+
 export const ASSETS = {
   // Provided assets
   // 首页中间的种子图片 (请将下方链接替换为您上传图片的 URL)
@@ -14,7 +15,8 @@ export const ASSETS = {
   // Audio Assets
   SOUND_CLICK: "https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3",
   SOUND_WATER: "https://assets.mixkit.co/sfx/preview/mixkit-liquid-bubble-3000.mp3", 
-  SOUND_SHUTTER: "https://assets.mixkit.co/sfx/preview/mixkit-camera-shutter-click-1133.mp3"
+  SOUND_SHUTTER: "https://assets.mixkit.co/sfx/preview/mixkit-camera-shutter-click-1133.mp3",
+  SOUND_GROW: "https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3"
 };
 
 export const TEXTS = {
@@ -28,6 +30,14 @@ export const TEXTS = {
   COLLECTION: "Oasis 绿洲",
   SPECIMEN_NO: "0824"
 };
+
+export const LOADING_TEXTS = [
+  "正在吸收清晨露水...",
+  "正在捕获第一缕阳光...",
+  "正在舒展叶脉...",
+  "正在从土壤汲取养分...",
+  "正在分析今日气场..."
+];
 
 export interface SpecimenPreset {
   name: string;

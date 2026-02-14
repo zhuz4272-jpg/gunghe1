@@ -111,7 +111,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
             <div className="flex-1 min-h-0 w-full flex flex-col px-4 pb-2 relative z-20 items-center">
                 
                 {/* Card Area */}
-                <div className="flex-1 min-h-0 w-full flex items-center justify-center mb-2">
+                <div className={`flex-1 min-h-0 w-full flex items-center justify-center mb-2 ${isLoaded ? 'animate-slide-up' : 'opacity-0'}`}>
                     <div ref={cardRef} className="w-full max-w-[320px] sm:max-w-sm h-auto max-h-full bg-earth-light rounded-[4px] shadow-2xl relative overflow-hidden flex flex-col items-center">
                         {/* Texture Overlay */}
                         <div className="texture-overlay"></div>
@@ -137,9 +137,14 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                             </div>
 
                             {/* Image Specimen - Border Removed, Spacing Increased */}
-                            <div className="flex-1 w-full flex items-center justify-center min-h-0 py-1 mb-8">
+                            <div className="flex-1 w-full flex items-center justify-center min-h-0 py-1 mb-8 group">
                                 <div className="relative aspect-square h-full max-h-[280px] sm:max-h-[350px] w-auto max-w-full flex items-center justify-center">
                                     
+                                    {/* Holographic Shine Effect Overlay */}
+                                    <div className="absolute inset-0 z-30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none overflow-hidden">
+                                        <div className="absolute inset-[-100%] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 animate-shine-sweep"></div>
+                                    </div>
+
                                     {data.isIllustration ? (
                                     <div className="w-full h-full flex items-center justify-center relative">
                                         <img 
@@ -164,14 +169,14 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                                 </div>
                             </div>
 
-                            {/* Bottom Section: Text Content - Compact */}
+                            {/* Bottom Section: Text Content - Compact - Staggered Reveal */}
                             <div className="text-center w-full shrink-0 flex flex-col gap-1 pb-1">
-                                <h1 className="font-serif text-lg sm:text-xl font-black text-earth-dark tracking-wide leading-none mt-1">
+                                <h1 className={`font-serif text-lg sm:text-xl font-black text-earth-dark tracking-wide leading-none mt-1 transition-all duration-700 delay-300 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
                                     {data.name}
                                 </h1>
 
                                 {/* Tag & Stamp Container */}
-                                <div className="relative w-full flex justify-center py-0.5">
+                                <div className={`relative w-full flex justify-center py-0.5 transition-all duration-700 delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
                                     {/* Tag Info */}
                                     <div className="inline-flex items-center justify-center space-x-2 px-4 relative z-10">
                                         <div className="flex flex-col items-center">
@@ -186,7 +191,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                                     </div>
                                     
                                     {/* Stamp - Positioned further out and scaled down to avoid overlap */}
-                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 transform rotate-[-15deg] opacity-80 mix-blend-multiply pointer-events-none border border-seal-red rounded-full w-8 h-8 flex items-center justify-center z-0 scale-90">
+                                    <div className={`absolute right-2 top-1/2 -translate-y-1/2 transform rotate-[-15deg] opacity-80 mix-blend-multiply pointer-events-none border border-seal-red rounded-full w-8 h-8 flex items-center justify-center z-0 scale-90 transition-all duration-500 delay-700 ${isLoaded ? 'scale-90 opacity-80' : 'scale-150 opacity-0'}`}>
                                         <div className="absolute inset-0.5 border border-seal-red rounded-full opacity-60"></div>
                                         <span className="text-[5px] text-seal-red font-bold uppercase tracking-widest text-center leading-tight">
                                             Oasis<br/>Verified
@@ -195,7 +200,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                                 </div>
 
                                 {/* Quote - Tighter padding */}
-                                <div className="px-3 py-1.5 bg-paper-texture border-t border-b border-stone-100 relative my-0.5 mx-2">
+                                <div className={`px-3 py-1.5 bg-paper-texture border-t border-b border-stone-100 relative my-0.5 mx-2 transition-all duration-700 delay-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
                                     <span className="absolute top-0 left-1 text-base text-stone-300 font-serif leading-none">“</span>
                                     <p className="text-earth-dark/80 leading-relaxed font-serif text-[9px] sm:text-[10px] italic relative z-10 line-clamp-3">
                                         {data.quote}
@@ -204,7 +209,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                                 </div>
 
                                 {/* Card Footer Details */}
-                                <div className="pt-0.5 w-full flex justify-center items-center opacity-50">
+                                <div className={`pt-0.5 w-full flex justify-center items-center opacity-50 transition-opacity duration-1000 delay-1000 ${isLoaded ? 'opacity-50' : 'opacity-0'}`}>
                                     <div className="flex items-center space-x-2 text-[5px] uppercase tracking-[0.3em] text-stone-gray font-bold">
                                         <span>—</span>
                                         <span>{TEXTS.COLLECTION}</span>
