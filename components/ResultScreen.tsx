@@ -10,6 +10,7 @@ interface ResultScreenProps {
 export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const handleSave = async () => {
     if (cardRef.current === null) return;
@@ -100,14 +101,23 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
 
                         {/* Image Specimen - Flexible Space (Flex-1) */}
                         <div className="flex-1 w-full flex items-center justify-center min-h-0 py-2">
-                            <div className="relative aspect-square h-full max-h-[180px] sm:max-h-[220px] w-auto max-w-full rounded-[2rem] overflow-hidden shadow-sm bg-[#f4f1ea] ring-1 ring-black/5">
+                            <div className="relative aspect-square h-full max-h-[180px] sm:max-h-[220px] w-auto max-w-full rounded-[2rem] overflow-hidden shadow-sm bg-[#f4f1ea] ring-1 ring-black/5 flex items-center justify-center">
+                                
+                                {/* Loading Spinner */}
+                                {!isImageLoaded && (
+                                    <div className="absolute inset-0 z-0 flex items-center justify-center">
+                                        <div className="w-6 h-6 border-2 border-olive-green/30 border-t-olive-green rounded-full animate-spin"></div>
+                                    </div>
+                                )}
+
                                 {data.isIllustration ? (
-                                   <div className="w-full h-full flex items-center justify-center relative">
+                                   <div className={`w-full h-full flex items-center justify-center relative transition-opacity duration-700 ease-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}>
                                      <img 
                                         src={data.image} 
                                         crossOrigin="anonymous"
                                         alt="Botanical illustration" 
                                         className="relative z-10 w-[85%] h-[85%] object-contain" 
+                                        onLoad={() => setIsImageLoaded(true)}
                                      />
                                    </div>
                                 ) : (
@@ -115,11 +125,12 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                                         src={data.image} 
                                         crossOrigin="anonymous"
                                         alt="Botanical photo" 
-                                        className="w-full h-full object-cover" 
+                                        className={`w-full h-full object-cover transition-opacity duration-700 ease-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                                        onLoad={() => setIsImageLoaded(true)}
                                      />
                                 )}
                                 {/* Inner Shadow for depth */}
-                                <div className="absolute inset-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] pointer-events-none rounded-[2rem]"></div>
+                                <div className="absolute inset-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] pointer-events-none rounded-[2rem] z-20"></div>
                             </div>
                         </div>
 
