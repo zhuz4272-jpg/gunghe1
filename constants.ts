@@ -1,3 +1,4 @@
+
 export const ASSETS = {
   // Use the provided hotlink URLs
   SEED_IMAGE: "https://lh3.googleusercontent.com/aida-public/AB6AXuBF34Ii0plS7mdXWwWl1j-6Hu6oO6VoP8ARIDrctcTCFpMwHWs0Btgpd9w-V3RA8F0uh2BXPy1epLCRc7MnYZ68_a7eYRBr2a0rlHsjbFRuHq5AvhI9eWORCXHZUC2kNzcjCJ2dMmbIDmfTRB5Z7bz0eessgS-Nf-dqUbqc4Y6MEl1Y73eb8rBQaNAqrTbwnJSoOmWFYRniZfHqw2QDLTMaGubBwvLpLwl6e9W5c5mIotl4JXm6_nEzhH0IZnPIQctUDeiWVkEXNLw9",
@@ -12,10 +13,58 @@ export const TEXTS = {
   BUTTON_GENERATE: "浇水唤醒",
   BUTTON_SUB: "生成 · GENERATE",
   RESULT_TITLE: "Daily Vegetation",
-  RESULT_NAME: "暴躁仙人掌",
-  RESULT_TAG_TYPE: "忌",
-  RESULT_TAG_TEXT: "随便抱抱",
-  RESULT_QUOTE: "“浑身是刺不是你的错，是世界太拥挤。保持距离产生美，今天谁惹你，扎谁便是。”",
   COLLECTION: "Oasis 绿洲",
   SPECIMEN_NO: "0824"
 };
+
+export interface SpecimenPreset {
+  name: string;
+  image: string;
+  tagType: string;
+  tagText: string;
+  quote: string;
+  cta: string;
+}
+
+export const PRESETS: SpecimenPreset[] = [
+  {
+    name: "反卷芦荟",
+    image: ASSETS.CACTUS_IMAGE, // Using placeholder/cactus image as per constraint
+    tagType: "宜",
+    tagText: "物理断网",
+    quote: "今天你的角质层很厚，外界的焦虑无法渗透你。适合做一个安静的美容博主，或者单纯发呆。",
+    cta: "去绿洲发一张“天空”的照片 ☁️"
+  },
+  {
+    name: "暴躁仙人掌",
+    image: ASSETS.CACTUS_IMAGE,
+    tagType: "忌",
+    tagText: "随便抱抱",
+    quote: "浑身是刺不是你的错，是世界太拥挤。保持距离产生美，今天谁惹你，扎谁便是。",
+    cta: "去绿洲给陌生人点一个“赞” 👍"
+  },
+  {
+    name: "社牛向日葵",
+    image: ASSETS.CACTUS_IMAGE,
+    tagType: "宜",
+    tagText: "光合作用",
+    quote: "你的能量过剩，急需释放！别憋在工位上，去晒太阳，去见人，去成为人群中的光源。",
+    cta: "在绿洲带话题 #今日穿搭 发帖 👗"
+  },
+  {
+    name: "佛系苔藓",
+    image: ASSETS.CACTUS_IMAGE,
+    tagType: "宜",
+    tagText: "阴暗爬行",
+    quote: "今天不宜出头，适合在角落里静静生长。虽不起眼，但你不仅绿，而且绿得很有层次感。",
+    cta: "浏览绿洲“萌宠”频道 10 分钟 🐱"
+  },
+  {
+    name: "熬夜捕蝇草",
+    image: ASSETS.CACTUS_IMAGE,
+    tagType: "忌",
+    tagText: "通宵冲浪",
+    quote: "嘴巴张得太大容易吃进脏东西。闭嘴，闭眼，该消化一下最近的情绪了。",
+    cta: "搜索绿洲里的“助眠白噪音” 💤"
+  }
+];

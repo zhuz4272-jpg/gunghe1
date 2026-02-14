@@ -1,12 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { Download, ArrowLeft } from 'lucide-react';
-import { ASSETS, TEXTS } from '../constants';
+import { Download, ArrowLeft, Sparkles } from 'lucide-react';
+import { ASSETS, TEXTS, SpecimenPreset } from '../constants';
 
 interface ResultScreenProps {
   onReset: () => void;
+  data: SpecimenPreset;
 }
 
-export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
+export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -101,7 +102,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
                         <div className="flex-1 min-h-0 w-full relative flex items-center justify-center my-1 p-2 bg-gradient-to-b from-white/40 to-transparent rounded-full">
                             <div className="absolute w-2/3 h-2/3 bg-olive-green/10 rounded-full blur-xl animate-pulse"></div>
                             <img 
-                                src={ASSETS.CACTUS_IMAGE} 
+                                src={data.image} 
                                 crossOrigin="anonymous"
                                 alt="Botanical illustration" 
                                 className="relative z-10 max-h-full max-w-full object-contain mix-blend-multiply opacity-95 filter contrast-110" 
@@ -111,18 +112,20 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
                         {/* Text Content - Fixed or naturally sized */}
                         <div className="text-center w-full shrink-0 mt-1 flex flex-col gap-1 sm:gap-2">
                             <h1 className="font-serif text-xl sm:text-3xl font-black text-earth-dark tracking-wide leading-tight">
-                                {TEXTS.RESULT_NAME}
+                                {data.name}
                             </h1>
 
                             {/* Tag & Stamp */}
                             <div className="relative py-1">
                                 <div className="inline-flex items-center justify-center space-x-2 px-4 relative z-10">
                                     <div className="flex flex-col items-center">
-                                        <span className="font-serif font-bold text-terracotta text-base sm:text-lg">{TEXTS.RESULT_TAG_TYPE}</span>
+                                        <span className={`font-serif font-bold text-base sm:text-lg ${data.tagType.includes('忌') ? 'text-seal-red' : 'text-terracotta'}`}>
+                                            {data.tagType}
+                                        </span>
                                     </div>
                                     <div className="h-5 sm:h-6 w-px bg-stone-300 transform rotate-12"></div>
                                     <span className="font-serif text-earth-dark/90 text-sm sm:text-base tracking-wide border-b border-dashed border-stone-300 pb-0.5">
-                                        {TEXTS.RESULT_TAG_TEXT}
+                                        {data.tagText}
                                     </span>
                                 </div>
                                 
@@ -139,9 +142,19 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
                             <div className="px-3 py-2 sm:py-3 bg-paper-texture border-t border-b border-stone-100 relative mt-1">
                                 <span className="absolute top-0 left-1 text-xl sm:text-2xl text-stone-200 font-serif leading-none">“</span>
                                 <p className="text-earth-dark/80 leading-relaxed font-serif text-xs sm:text-sm italic relative z-10 line-clamp-3">
-                                    {TEXTS.RESULT_QUOTE}
+                                    {data.quote}
                                 </p>
                                 <span className="absolute bottom-0 right-1 text-xl sm:text-2xl text-stone-200 font-serif leading-none transform rotate-180">“</span>
+                            </div>
+
+                            {/* Lucky Nutrient CTA */}
+                            <div className="w-full flex justify-center items-center mt-1">
+                                <div className="flex items-center space-x-1.5 bg-olive-green/5 px-3 py-1.5 rounded-full border border-olive-green/10">
+                                    <Sparkles className="w-3 h-3 text-olive-green" />
+                                    <span className="text-[10px] sm:text-xs text-olive-green/90 font-medium tracking-wide">
+                                       幸运养分：{data.cta}
+                                    </span>
+                                </div>
                             </div>
 
                             {/* Card Footer Details */}
