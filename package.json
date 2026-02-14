@@ -9,10 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "lucide-react": "^0.564.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "html-to-image": "^1.11.11"
+    "lucide-react": "0.436.0",
+    "react": "19.0.0-rc-69d4b800-20241021",
+    "react-dom": "19.0.0-rc-69d4b800-20241021",
+    "html-to-image": "1.11.11"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Download, Share2, ArrowLeft } from 'lucide-react';
 import { ASSETS, TEXTS } from '../constants';
-import { toPng } from 'html-to-image';
 
 interface ResultScreenProps {
   onReset: () => void;
@@ -16,6 +15,9 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
     
     setIsSaving(true);
     try {
+      // Dynamically import html-to-image to avoid initial load issues
+      const { toPng } = await import('html-to-image');
+      
       // Small delay to ensure any layout shifts are settled
       await new Promise(resolve => setTimeout(resolve, 100));
       
@@ -31,6 +33,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset }) => {
       link.click();
     } catch (err) {
       console.error('Failed to save image', err);
+      alert('保存图片失败，请重试');
     } finally {
       setIsSaving(false);
     }
