@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StartScreen } from './components/StartScreen';
 import { ResultScreen } from './components/ResultScreen';
-import { PRESETS, SpecimenPreset } from './constants';
+import { PRESETS, SpecimenPreset, ASSETS } from './constants';
 
 export enum AppState {
   START = 'START',
@@ -12,6 +12,7 @@ export enum AppState {
 const App: React.FC = () => {
   const [view, setView] = useState<AppState>(AppState.START);
   const [currentResult, setCurrentResult] = useState<SpecimenPreset>(PRESETS[1]); // Default to Cactus
+  const [seedImage, setSeedImage] = useState<string>(ASSETS.SEED_IMAGE);
 
   const handleGenerate = () => {
     setView(AppState.GENERATING);
@@ -34,7 +35,11 @@ const App: React.FC = () => {
     <div className="w-screen h-screen fixed inset-0 overflow-hidden bg-white">
        {/* Global Container */}
        {view === AppState.START || view === AppState.GENERATING ? (
-         <StartScreen onGenerate={handleGenerate} isGenerating={view === AppState.GENERATING} />
+         <StartScreen 
+            onGenerate={handleGenerate} 
+            isGenerating={view === AppState.GENERATING}
+            seedImage={seedImage}
+         />
        ) : (
          <ResultScreen onReset={handleReset} data={currentResult} />
        )}

@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { ArrowLeft, MoreHorizontal, Droplets, ChevronRight } from 'lucide-react';
 import { ASSETS, TEXTS } from '../constants';
 
 interface StartScreenProps {
   onGenerate: () => void;
   isGenerating: boolean;
+  seedImage: string;
 }
 
-export const StartScreen: React.FC<StartScreenProps> = ({ onGenerate, isGenerating }) => {
+export const StartScreen: React.FC<StartScreenProps> = ({ 
+  onGenerate, 
+  isGenerating, 
+  seedImage
+}) => {
+  const imgRef = useRef<HTMLImageElement>(null);
   
+  // Manually enforce referrer policy on mount
+  useEffect(() => {
+    if (imgRef.current) {
+      imgRef.current.referrerPolicy = "no-referrer";
+    }
+  }, []);
+
   const handleGenerateClick = () => {
     if (isGenerating) return;
     
@@ -51,16 +64,18 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGenerate, isGenerati
 
             {/* Seed Container - Flexible with constraints */}
             <div className={`flex-1 min-h-0 w-full flex items-center justify-center relative ${isGenerating ? 'animate-pulse scale-95 transition-all duration-700' : 'animate-float'}`}>
-              <div className="relative h-full max-h-[50vh] aspect-square flex items-center justify-center">
+              <div className="relative h-full max-h-[50vh] aspect-square flex items-center justify-center group">
                   <div className="absolute inset-0 m-auto w-[90%] h-[90%] bg-gradient-to-tr from-orange-100 to-green-100 rounded-full blur-3xl opacity-80"></div>
                   
                   <div className="relative h-[80%] aspect-square rounded-[3rem] overflow-hidden shadow-2xl shadow-green-900/10 border border-white/40 backdrop-blur-sm bg-gradient-to-br from-white/30 to-white/10 z-10">
                     <img 
-                      src={ASSETS.SEED_IMAGE} 
+                      ref={imgRef}
+                      src={seedImage} 
                       alt="Floating Seed" 
-                      className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-[3s] ease-out"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-[3s] ease-out block"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-white/40 mix-blend-soft-light pointer-events-none"></div>
+                    {/* Removed tint overlay to show custom images clearly */}
                   </div>
 
                   {/* Floating Particles */}

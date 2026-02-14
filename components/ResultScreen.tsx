@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from 'react';
 import { Download, ArrowLeft } from 'lucide-react';
 import { ASSETS, TEXTS, SpecimenPreset } from '../constants';
@@ -93,7 +94,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-terracotta/5 blur-[60px] rounded-full pointer-events-none z-30 mix-blend-multiply"></div>
 
             {/* Header Bar */}
-            <header className="w-full p-3 flex justify-between items-center z-50 shrink-0 relative">
+            <header className="w-full p-2 flex justify-between items-center z-50 shrink-0 relative">
             <button 
                 onClick={handleBack}
                 className="w-9 h-9 flex items-center justify-center rounded-full glass-panel hover:bg-white/60 transition-colors shadow-sm text-stone-600"
@@ -107,11 +108,11 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
             </header>
 
             {/* Main Flex Container */}
-            <div className="flex-1 min-h-0 w-full flex flex-col px-4 pb-4 relative z-20 items-center">
+            <div className="flex-1 min-h-0 w-full flex flex-col px-4 pb-2 relative z-20 items-center">
                 
-                {/* Card Area - Flex with min-height safety */}
-                <div className="flex-1 min-h-0 w-full flex items-center justify-center mb-4">
-                    <div ref={cardRef} className="w-full max-w-sm h-auto max-h-full bg-earth-light rounded-[4px] shadow-2xl relative overflow-hidden flex flex-col items-center">
+                {/* Card Area */}
+                <div className="flex-1 min-h-0 w-full flex items-center justify-center mb-2">
+                    <div ref={cardRef} className="w-full max-w-[320px] sm:max-w-sm h-auto max-h-full bg-earth-light rounded-[4px] shadow-2xl relative overflow-hidden flex flex-col items-center">
                         {/* Texture Overlay */}
                         <div className="texture-overlay"></div>
                         
@@ -119,25 +120,25 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                         <div className="absolute inset-2 border border-olive-green/10 pointer-events-none z-20"></div>
                         <div className="absolute inset-3 border border-olive-green/5 pointer-events-none z-20"></div>
 
-                        {/* Card Content - Flex Column */}
-                        <div className="relative z-10 w-full p-4 sm:p-5 flex flex-col h-full items-center">
+                        {/* Card Content - Compact Layout */}
+                        <div className="relative z-10 w-full px-5 py-4 flex flex-col h-full items-center">
                             
                             {/* Header Section - Shrink 0 */}
-                            <div className="w-full flex justify-between items-start mb-2 shrink-0">
+                            <div className="w-full flex justify-between items-start mb-1 shrink-0">
                                 <div className="flex flex-col">
-                                    <span className="font-serif italic text-olive-green text-[10px] tracking-widest">
+                                    <span className="font-serif italic text-olive-green text-[9px] tracking-widest">
                                         {TEXTS.RESULT_TITLE}
                                     </span>
                                     <div className="w-6 h-px bg-olive-green/30 mt-0.5"></div>
                                 </div>
                                 <div className="border border-stone-300 rounded-full px-1.5 py-px">
-                                    <span className="text-[8px] font-sans uppercase tracking-widest text-stone-500">NO. {TEXTS.SPECIMEN_NO}</span>
+                                    <span className="text-[7px] font-sans uppercase tracking-widest text-stone-500">NO. {TEXTS.SPECIMEN_NO}</span>
                                 </div>
                             </div>
 
-                            {/* Image Specimen - Flexible Space (Flex-1) */}
-                            <div className="flex-1 w-full flex items-center justify-center min-h-0 py-2">
-                                <div className="relative aspect-square h-full max-h-[180px] sm:max-h-[220px] w-auto max-w-full rounded-[2rem] overflow-hidden shadow-sm bg-[#f4f1ea] ring-1 ring-black/5 flex items-center justify-center">
+                            {/* Image Specimen - Border Removed, Spacing Increased */}
+                            <div className="flex-1 w-full flex items-center justify-center min-h-0 py-1 mb-8">
+                                <div className="relative aspect-square h-full max-h-[160px] sm:max-h-[200px] w-auto max-w-full flex items-center justify-center">
                                     
                                     {data.isIllustration ? (
                                     <div className="w-full h-full flex items-center justify-center relative">
@@ -145,7 +146,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                                             src={data.image} 
                                             crossOrigin="anonymous"
                                             alt="Botanical illustration" 
-                                            className="relative z-10 w-[85%] h-[85%] object-contain" 
+                                            className="relative z-10 w-full h-full object-contain filter drop-shadow-md" 
                                             onLoad={() => setIsLoaded(true)}
                                             onError={() => setIsLoaded(true)}
                                         />
@@ -155,57 +156,56 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                                             src={data.image} 
                                             crossOrigin="anonymous"
                                             alt="Botanical photo" 
-                                            className="w-full h-full object-cover" 
+                                            className="w-full h-full object-cover rounded-[1rem] shadow-sm" 
                                             onLoad={() => setIsLoaded(true)}
                                             onError={() => setIsLoaded(true)}
                                         />
                                     )}
-                                    {/* Inner Shadow for depth */}
-                                    <div className="absolute inset-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] pointer-events-none rounded-[2rem] z-20"></div>
                                 </div>
                             </div>
 
-                            {/* Bottom Section: Text Content - Shrink 0 to preserve readability */}
-                            <div className="text-center w-full shrink-0 flex flex-col gap-1.5 pb-1">
-                                <h1 className="font-serif text-xl sm:text-2xl font-black text-earth-dark tracking-wide leading-none">
+                            {/* Bottom Section: Text Content - Compact */}
+                            <div className="text-center w-full shrink-0 flex flex-col gap-1 pb-1">
+                                <h1 className="font-serif text-lg sm:text-xl font-black text-earth-dark tracking-wide leading-none mt-1">
                                     {data.name}
                                 </h1>
 
-                                {/* Tag & Stamp */}
-                                <div className="relative py-0.5">
+                                {/* Tag & Stamp Container */}
+                                <div className="relative w-full flex justify-center py-0.5">
+                                    {/* Tag Info */}
                                     <div className="inline-flex items-center justify-center space-x-2 px-4 relative z-10">
                                         <div className="flex flex-col items-center">
-                                            <span className={`font-serif font-bold text-sm sm:text-base ${data.tagType.includes('忌') ? 'text-seal-red' : 'text-terracotta'}`}>
+                                            <span className={`font-serif font-bold text-sm ${data.tagType.includes('忌') ? 'text-seal-red' : 'text-terracotta'}`}>
                                                 {data.tagType}
                                             </span>
                                         </div>
-                                        <div className="h-4 w-px bg-stone-300 transform rotate-12"></div>
-                                        <span className="font-serif text-earth-dark/90 text-xs sm:text-sm tracking-wide border-b border-dashed border-stone-300 pb-0.5">
+                                        <div className="h-3 w-px bg-stone-300 transform rotate-12"></div>
+                                        <span className="font-serif text-earth-dark/90 text-xs tracking-wide border-b border-dashed border-stone-300 pb-px">
                                             {data.tagText}
                                         </span>
                                     </div>
                                     
-                                    {/* Stamp */}
-                                    <div className="absolute -right-1 -top-1 transform rotate-[-15deg] opacity-80 mix-blend-multiply pointer-events-none border border-seal-red rounded-full w-9 h-9 flex items-center justify-center">
+                                    {/* Stamp - Positioned further out and scaled down to avoid overlap */}
+                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 transform rotate-[-15deg] opacity-80 mix-blend-multiply pointer-events-none border border-seal-red rounded-full w-8 h-8 flex items-center justify-center z-0 scale-90">
                                         <div className="absolute inset-0.5 border border-seal-red rounded-full opacity-60"></div>
-                                        <span className="text-[6px] text-seal-red font-bold uppercase tracking-widest text-center leading-tight">
+                                        <span className="text-[5px] text-seal-red font-bold uppercase tracking-widest text-center leading-tight">
                                             Oasis<br/>Verified
                                         </span>
                                     </div>
                                 </div>
 
-                                {/* Quote */}
-                                <div className="px-3 py-2 bg-paper-texture border-t border-b border-stone-100 relative my-1">
-                                    <span className="absolute top-0 left-1 text-lg text-stone-300 font-serif leading-none">“</span>
-                                    <p className="text-earth-dark/80 leading-relaxed font-serif text-[10px] sm:text-xs italic relative z-10 line-clamp-3">
+                                {/* Quote - Tighter padding */}
+                                <div className="px-3 py-1.5 bg-paper-texture border-t border-b border-stone-100 relative my-0.5 mx-2">
+                                    <span className="absolute top-0 left-1 text-base text-stone-300 font-serif leading-none">“</span>
+                                    <p className="text-earth-dark/80 leading-relaxed font-serif text-[9px] sm:text-[10px] italic relative z-10 line-clamp-3">
                                         {data.quote}
                                     </p>
-                                    <span className="absolute bottom-0 right-1 text-lg text-stone-300 font-serif leading-none transform rotate-180">“</span>
+                                    <span className="absolute bottom-0 right-1 text-base text-stone-300 font-serif leading-none transform rotate-180">“</span>
                                 </div>
 
                                 {/* Card Footer Details */}
-                                <div className="pt-1 w-full flex justify-center items-center opacity-50">
-                                    <div className="flex items-center space-x-2 text-[6px] uppercase tracking-[0.3em] text-stone-gray font-bold">
+                                <div className="pt-0.5 w-full flex justify-center items-center opacity-50">
+                                    <div className="flex items-center space-x-2 text-[5px] uppercase tracking-[0.3em] text-stone-gray font-bold">
                                         <span>—</span>
                                         <span>{TEXTS.COLLECTION}</span>
                                         <span>—</span>
@@ -217,22 +217,22 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ onReset, data }) => 
                 </div>
 
                 {/* Action Buttons - Fixed at bottom */}
-                <div className="shrink-0 w-full flex items-center justify-center pb-2 sm:pb-4">
+                <div className="shrink-0 w-full flex items-center justify-center pb-2">
                     <button 
                     onClick={handleSave}
                     disabled={isSaving}
                     className="group relative flex flex-col items-center justify-center outline-none active:scale-95 transition-transform"
                     >
-                        <div className="w-11 h-11 bg-gradient-to-br from-terracotta to-[#a83e38] rounded-xl shadow-lg shadow-terracotta/20 border-2 border-[#fff1e6]/20 flex items-center justify-center transform group-hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                        <div className="w-10 h-10 bg-gradient-to-br from-terracotta to-[#a83e38] rounded-xl shadow-lg shadow-terracotta/20 border-2 border-[#fff1e6]/20 flex items-center justify-center transform group-hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-20"></div>
                             {isSaving ? (
                                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                             ) : (
-                                <Download className="text-white w-5 h-5 drop-shadow-md" />
+                                <Download className="text-white w-4 h-4 drop-shadow-md" />
                             )}
                         </div>
-                        <div className="mt-1.5 flex flex-col items-center">
-                            <span className="font-serif text-[10px] font-bold text-earth-dark/70 tracking-widest group-hover:text-terracotta transition-colors">
+                        <div className="mt-1 flex flex-col items-center">
+                            <span className="font-serif text-[9px] font-bold text-earth-dark/70 tracking-widest group-hover:text-terracotta transition-colors">
                                 留存标本
                             </span>
                         </div>

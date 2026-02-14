@@ -1,15 +1,15 @@
 
-
 export const ASSETS = {
   // Provided assets
-  SEED_IMAGE: "https://lh3.googleusercontent.com/aida-public/AB6AXuBF34Ii0plS7mdXWwWl1j-6Hu6oO6VoP8ARIDrctcTCFpMwHWs0Btgpd9w-V3RA8F0uh2BXPy1epLCRc7MnYZ68_a7eYRBr2a0rlHsjbFRuHq5AvhI9eWORCXHZUC2kNzcjCJ2dMmbIDmfTRB5Z7bz0eessgS-Nf-dqUbqc4Y6MEl1Y73eb8rBQaNAqrTbwnJSoOmWFYRniZfHqw2QDLTMaGubBwvLpLwl6e9W5c5mIotl4JXm6_nEzhH0IZnPIQctUDeiWVkEXNLw9",
-  CACTUS_IMAGE: "https://lh3.googleusercontent.com/aida-public/AB6AXuDEM-qbcyRXYlPXv93XmvhABcYik8DYRUaPUkq2FlA35zC0P_2kDl_hwA0XejOtXs5IHehdi6btKbV2fUFfg60bUW2_bCsz8QTMqMo1ENfFV-i0TtLHW7mwaAqLPDZshCMiItKb1OHcXJKPusqElJijOGcQ1zKmgHytJxK6sQX4CmjdnhS-iE9lUQrvf_WzcMO1PX2-InpajrbGn0saeJfL9OSOfxf2EzvnUhAq3zeFjcbbQ_amA-klbHIdcrHVSMVZenHaCbid50Tz",
+  // 首页中间的种子图片 (请将下方链接替换为您上传图片的 URL)
+  SEED_IMAGE: "https://cdn.jsdelivr.net/gh/zhuz4272-jpg/-Oasis--Images/img/%E9%A6%96%E9%A1%B5%E8%B5%84%E6%BA%90.png",
+  CACTUS_IMAGE: "https://cdn.jsdelivr.net/gh/zhuz4272-jpg/-Oasis--Images/img/%E6%9A%B4%E8%BA%81%E4%BB%99%E4%BA%BA%E6%8E%8C.png",
   
-  // New assets for other plants (sourced from Unsplash for demo purposes)
-  ALOE_IMAGE: "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?auto=format&fit=crop&w=600&q=80",
-  SUNFLOWER_IMAGE: "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=600&q=80",
-  MOSS_IMAGE: "https://images.unsplash.com/photo-1453904300235-0f2f60b15b5d?auto=format&fit=crop&w=600&q=80",
-  FLYTRAP_IMAGE: "https://images.unsplash.com/photo-1550953686-e8d91c2b534d?auto=format&fit=crop&w=600&q=80",
+  // New assets for other plants
+  ALOE_IMAGE: "https://cdn.jsdelivr.net/gh/zhuz4272-jpg/-Oasis--Images/img/%E5%8F%8D%E5%8D%B7%E8%8A%A6%E8%8D%9F.png",
+  SUNFLOWER_IMAGE: "https://cdn.jsdelivr.net/gh/zhuz4272-jpg/-Oasis--Images/img/%E7%A4%BE%E7%89%9B%E4%BB%99%E4%BA%BA%E6%8E%8C.png",
+  MOSS_IMAGE: "https://cdn.jsdelivr.net/gh/zhuz4272-jpg/-Oasis--Images/img/%E4%BD%9B%E7%B3%BB%E8%8B%94%E8%97%93.png",
+  FLYTRAP_IMAGE: "https://cdn.jsdelivr.net/gh/zhuz4272-jpg/-Oasis--Images/img/%E7%86%AC%E5%A4%9C%E6%8D%95%E8%9D%87%E8%8D%89.png",
 
   // Audio Assets
   SOUND_CLICK: "https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3",
@@ -46,7 +46,8 @@ export const PRESETS: SpecimenPreset[] = [
     tagType: "宜",
     tagText: "物理断网",
     quote: "今天你的角质层很厚，外界的焦虑无法渗透你。适合做一个安静的美容博主，或者单纯发呆。",
-    cta: "去绿洲发一张“天空”的照片 ☁️"
+    cta: "去绿洲发一张“天空”的照片 ☁️",
+    isIllustration: true
   },
   {
     name: "暴躁仙人掌",
@@ -58,12 +59,13 @@ export const PRESETS: SpecimenPreset[] = [
     isIllustration: true
   },
   {
-    name: "社牛向日葵",
+    name: "社牛仙人掌",
     image: ASSETS.SUNFLOWER_IMAGE,
     tagType: "宜",
     tagText: "光合作用",
     quote: "你的能量过剩，急需释放！别憋在工位上，去晒太阳，去见人，去成为人群中的光源。",
-    cta: "在绿洲带话题 #今日穿搭 发帖 👗"
+    cta: "在绿洲带话题 #今日穿搭 发帖 👗",
+    isIllustration: true
   },
   {
     name: "佛系苔藓",
@@ -71,7 +73,8 @@ export const PRESETS: SpecimenPreset[] = [
     tagType: "宜",
     tagText: "阴暗爬行",
     quote: "今天不宜出头，适合在角落里静静生长。虽不起眼，但你不仅绿，而且绿得很有层次感。",
-    cta: "浏览绿洲“萌宠”频道 10 分钟 🐱"
+    cta: "浏览绿洲“萌宠”频道 10 分钟 🐱",
+    isIllustration: true
   },
   {
     name: "熬夜捕蝇草",
@@ -79,6 +82,7 @@ export const PRESETS: SpecimenPreset[] = [
     tagType: "忌",
     tagText: "通宵冲浪",
     quote: "嘴巴张得太大容易吃进脏东西。闭嘴，闭眼，该消化一下最近的情绪了。",
-    cta: "搜索绿洲里的“助眠白噪音” 💤"
+    cta: "搜索绿洲里的“助眠白噪音” 💤",
+    isIllustration: true
   }
 ];
